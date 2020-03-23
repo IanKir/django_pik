@@ -1,0 +1,11 @@
+{% extends 'mainpage/mainpage_template.html' %}
+
+{% block content %}
+    <div class="class">
+        {{ building.establishment_date|linebreaksbr }}
+        <a class="btn btn-default" href="{% url 'building_edit' pk=building.id %}">
+            <span class="glyphicon glyphicon-pencil">{{ building.title }}</span></a>
+        {{ building.bricks_amount|linebreaksbr }}
+        {{ building.building_address|linebreaksbr }}
+    </div>
+{% endblock %}

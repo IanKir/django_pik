@@ -1,0 +1,10 @@
+{% extends 'mainpage/mainpage_template.html' %}
+
+{% block content %}
+    {% for building in buildings %}
+        {{ building.establishment_date }}
+        <a href="{% url 'building_detail' pk=building.id %}">{{ building.title }}</a>
+        {{ building.bricks_amount|linebreaksbr }}
+        {{ building.building_address|linebreaksbr }}
+    {% endfor %}
+{% endblock %}

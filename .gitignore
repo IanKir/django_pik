@@ -1,3 +1,7 @@
 .idea
 migrations
 venv
+db.sqlite3
+*.pyc
+*.cpython-37.pyc
+__pycache__
