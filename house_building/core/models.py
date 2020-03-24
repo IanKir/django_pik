@@ -4,7 +4,7 @@ from django.utils import timezone
 
 class Building(models.Model):
     title = models.CharField(max_length=200)
-    building_address = models.TextField(max_length=500)
+    building_address = models.TextField()
     created_date = models.DateTimeField(auto_now_add=True)
     establishment_date = models.DateTimeField(blank=True, null=True)
 
@@ -16,6 +16,7 @@ class Building(models.Model):
 
     def establish(self):
         self.establishment_date = timezone.now()
+        self.save()
 
     def __str__(self):
         return self.title

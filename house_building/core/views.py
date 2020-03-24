@@ -20,7 +20,7 @@ def get_stats(request):
 
 
 def building_detail(request, pk):
-    building = get_object_or_404(Building, id=pk)
+    building = get_object_or_404(Building, pk=pk)
     return render(
         request=request,
         template_name='mainpage/building_detail.html',
@@ -29,17 +29,17 @@ def building_detail(request, pk):
 
 
 def building_edit(request, pk):
-    building = get_object_or_404(Building, id=pk)
+    building = get_object_or_404(Building, pk=pk)
     if request.method == 'POST':
+        building.pk = building.pk
         building.title = request.POST.get('title')
         building.building_address = request.POST.get('building_address')
-        building.establishment_date = timezone.now()
-        building.save()
-        return redirect(to='building_detail', pk=building.id)
+        building.establish()
+        return redirect(to='building_detail', pk=building.pk)
     elif request.method == 'GET':
         return render(
             request=request,
-            template_name='mainpage/building_detail.html',
+            template_name='mainpage/building_edit.html',
             context={'building': building}
         )
     else:
@@ -48,24 +48,40 @@ def building_edit(request, pk):
 
 def building_new(request):
     if request.method == 'POST':
-        building = Building.objects.create(
-            title=request.POST.get('title'),
-            building_address=request.POST.get('building_address'),
-            establishment_date=timezone.now()
-        )
-        building.save()
-        return redirect(to='building_detail', pk=building.id)
+        building_pk = request.POST.get('building_pk')
+        building_title = request.POST.get('title')
+        building_address = request.POST.get('building_address')
+        if building_pk:
+            building = get_object_or_404(Building, pk=building_pk)
+            building.title = building_title
+            building.building_address = building_address
+            building.establish()
+        else:
+            building = Building.objects.create(
+                title=building_title,
+                building_address=building_address
+            )
+            building.establish()
+        return redirect(to='building_detail', pk=building.pk)
     return render(
         request=request,
-        template_name='mainpage/builidng_edit.html'
+        template_name='mainpage/building_edit.html'
     )
 
 
-def add_bricks(request):
+def add_bricks(request, pk):
+    building_pk = pk
     if request.method == 'POST':
+        building = get_object_or_404(Building, pk=building_pk)
         task = Task.objects.create(
-            building_number=request.POST.get('building_number'),
+            building_number=building,
             bricks_quantity=request.POST.get('bricks_quantity')
         )
         task.save()
-        return redirect(to='stats')
+        return redirect(to='get_stats')
+    elif request.method == 'GET':
+        return render(
+            request=request,
+            template_name='mainpage/building_add_bricks.html',
+            context={'building_pk': building_pk}
+        )

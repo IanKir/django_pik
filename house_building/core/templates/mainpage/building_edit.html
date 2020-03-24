@@ -1,0 +1,27 @@
+{% extends 'mainpage/mainpage_template.html' %}
+
+{% block content %}
+    <form method="POST" action="/building/">
+        {% csrf_token %}
+        <div class="form-group row w-50">
+            <label for="id_title_1" class="col-sm-5 col-form-label">Title:</label>
+            <div class="col-sm-10">
+                <input type="text" name="title" class="form-control"
+                       id="id_title_1" placeholder="Title"
+                       required value="{{ building.title }}">
+            </div>
+        </div>
+        <div class="form-group row ">
+            <label for="id_building_address1" class="col-sm-5 col-form-label">Building address:</label>
+            <div class="col-sm-10">
+                <input type="text" name="building_address" class="form-control"
+                       id="id_building_address1" placeholder="Building address"
+                       required value="{{ building.building_address }}">
+            </div>
+        </div>
+        {% if building %}
+            <input type="hidden" name="building_pk" value="{{ building.pk }}">
+        {% endif %}
+        <button type="submit" class="btn btn-primary mb-3">Построить здание</button>
+    </form>
+{% endblock %}

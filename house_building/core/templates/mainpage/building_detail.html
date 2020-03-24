@@ -1,11 +1,17 @@
 {% extends 'mainpage/mainpage_template.html' %}
 
 {% block content %}
-    <div class="class">
-        {{ building.establishment_date|linebreaksbr }}
-        <a class="btn btn-default" href="{% url 'building_edit' pk=building.id %}">
-            <span class="glyphicon glyphicon-pencil">{{ building.title }}</span></a>
-        {{ building.bricks_amount|linebreaksbr }}
-        {{ building.building_address|linebreaksbr }}
+    <div class="card" style="width: 20rem;">
+        <div class="card-body">
+            <div class="card-title">
+                <a href="{% url 'building_edit' pk=building.pk %}">{{ building.title }}</a>
+            </div>
+            <div class="card-text">
+                {{ building.building_address }}<br>
+                <p>Количество кирпичей: {{ building.get_bricks_amount }}</p>
+                {{ building.establishment_date }}
+            </div>
+        </div>
+        <a class="btn btn-success" role="button" href="{% url 'add_bricks' pk=building.pk %}">Добавить кирпичей</a>
     </div>
 {% endblock %}

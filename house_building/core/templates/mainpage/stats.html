@@ -1,10 +1,15 @@
 {% extends 'mainpage/mainpage_template.html' %}
 
 {% block content %}
-    {% for building in buildings %}
-        {{ building.establishment_date }}
-        <a href="{% url 'building_detail' pk=building.id %}">{{ building.title }}</a>
-        {{ building.bricks_amount|linebreaksbr }}
-        {{ building.building_address|linebreaksbr }}
-    {% endfor %}
+    <ul class="list-group list-group-flush w-25">
+        {% for building in buildings %}
+            <li class="list-group-item">
+                {{ building.establishment_date }}<br>
+                <a href="{% url 'building_detail' pk=building.pk %}">
+                    {{ building.title }}</a><br>
+                {{ building.bricks_amount|linebreaksbr }}
+                {{ building.building_address|linebreaksbr }}
+            </li>
+        {% endfor %}
+    </ul>
 {% endblock %}
