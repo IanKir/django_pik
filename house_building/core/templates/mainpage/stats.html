@@ -8,6 +8,7 @@
                 <a href="{% url 'building_detail' pk=building.pk %}">
                     {{ building.title }}</a><br>
                 {{ building.bricks_amount|linebreaksbr }}
+                <p>Количество кирпичей: {{ building.get_bricks_amount }}</p>
                 {{ building.building_address|linebreaksbr }}
             </li>
         {% endfor %}
